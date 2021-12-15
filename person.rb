@@ -1,3 +1,5 @@
+require './corrector'
+
 class Person
   attr_reader :id
   attr_accessor :name, :age, :parent_permission
@@ -7,15 +9,20 @@ class Person
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @corrector = Corrector.new
   end
 
   def can_use_services?
     is_of_age? || @parent_permission == true
   end
 
-  private
+  def validate_name
+    @corrector.correct_name(@name)
+  end
 
   def is_of_age?
     @age >= 18
   end
+
+  private :is_of_age?
 end
